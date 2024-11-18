@@ -21,11 +21,11 @@
 //         children: [
 //           SimpleExtendedImage(
 //             (context.routeData.args as Play).coverImgUrl ?? '',
-//             width: Get.width,
+//             width: MediaQuery.of(context).size.width,
 //           ),
 //           Scaffold(
 //       backgroundColor: Colors.transparent,
-//             appBar: MyAppBar(
+//             appBar: AppBar(
 //               title: const Text('Song Sheet'),
 //               backgroundColor: Colors.transparent,
 //             ),

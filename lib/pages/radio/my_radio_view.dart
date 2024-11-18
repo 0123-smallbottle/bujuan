@@ -29,7 +29,7 @@ class _MyRadioViewState extends State<MyRadioView> {
   Widget build(BuildContext context) {
     return MyGetView(child: Scaffold(
       backgroundColor: Colors.transparent,
-      appBar: MyAppBar(
+      appBar: AppBar(
         backgroundColor: Colors.transparent,
       ),
       body: RequestLoadMoreWidget<DjRadioListWrap, DjRadio>(

@@ -67,7 +67,7 @@ class LyricView extends GetView<Home> {
                       childDelegate: ListWheelChildBuilderDelegate(
                         builder: (context, index) => ClassStatelessWidget(
                             child: Container(
-                              width: Get.width,
+                              width: MediaQuery.of(context).size.width,
                               height: controller.hasTran.value ? 220.w : 120.w,
                               alignment: Alignment.center,
                               child: Column(
@@ -164,7 +164,7 @@ class LyricViewL extends GetView<Home> {
                       childDelegate: ListWheelChildBuilderDelegate(
                         builder: (context, index) => ClassStatelessWidget(
                             child: Container(
-                              width: Get.width,
+                              width: MediaQuery.of(context).size.width,
                               height: controller.hasTran.value ? 220.w : 120.w,
                               alignment: Alignment.center,
                               child: Column(

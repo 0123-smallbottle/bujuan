@@ -241,7 +241,7 @@
 //   @override
 //   void initState() {
 //     super.initState();
-//     _width = Get.width;
+//     _width = MediaQuery.of(context).size.width;
 //     _imageMaxSize = _width / 1.2;
 //     _imageMinSize = _width/ 9.375;
 //     _ac = AnimationController(
@@ -362,7 +362,7 @@
 //                               ],
 //                             ),
 //                           ),
-//                           maxHeight: Get.height - 130.w - MediaQuery.of(context).padding.bottom,
+//                           maxHeight: MediaQuery.of(context).size.height - 130.w - MediaQuery.of(context).padding.bottom,
 //                           minHeight: 130.w + MediaQuery.of(context).padding.bottom,
 //                         ),
 //                       ),

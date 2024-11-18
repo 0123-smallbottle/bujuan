@@ -90,7 +90,7 @@ class _SearchViewState extends State<SearchView> with SingleTickerProviderStateM
     return MyGetView(child: Scaffold(
       backgroundColor: Colors.transparent,
       resizeToAvoidBottomInset: false,
-      appBar: MyAppBar(
+      appBar: AppBar(
         backgroundColor: Colors.transparent,
         leadingWidth: 0.w,
         leading: const SizedBox.shrink(),

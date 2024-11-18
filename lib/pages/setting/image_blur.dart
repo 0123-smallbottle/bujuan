@@ -32,7 +32,7 @@ class _ImageBlurState extends State<ImageBlur> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: MyAppBar(),
+      appBar: AppBar(),
       body: Stack(
         children: [
           RepaintBoundary(
@@ -43,7 +43,7 @@ class _ImageBlurState extends State<ImageBlur> {
                   File(widget.path),
                   fit: BoxFit.cover,
                   width: 750.w,
-                  height: Get.height,
+                  height: MediaQuery.of(context).size.height,
                 ),
                 BackdropFilter(
                   filter: ImageFilter.blur(sigmaX: blur, sigmaY: blur),

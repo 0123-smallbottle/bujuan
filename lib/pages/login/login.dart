@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:auto_route/auto_route.dart';
 import 'package:bujuan/pages/home/home_controller.dart';
@@ -6,10 +7,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:get_it/get_it.dart';
+import 'package:hive_flutter/adapters.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:flutter_tabler_icons/flutter_tabler_icons.dart';
 
 import '../../common/constants/icon.dart';
+import '../../common/constants/key.dart';
 import '../../common/constants/other.dart';
 import '../../common/netease_api/src/api/bean.dart';
 import '../../common/netease_api/src/api/login/bean.dart';
@@ -17,16 +21,17 @@ import '../../common/netease_api/src/netease_api.dart';
 import '../../widget/custom_filed.dart';
 import '../user/user_controller.dart';
 
-class LoginView extends StatefulWidget {
-  const LoginView({Key? key}) : super(key: key);
+class LoginViewPage extends StatefulWidget {
+  const LoginViewPage({Key? key}) : super(key: key);
 
   @override
-  State<LoginView> createState() => _LoginViewStateP();
+  State<LoginViewPage> createState() => _LoginViewStateP();
 }
 
-class _LoginViewStateP extends State<LoginView> {
+class _LoginViewStateP extends State<LoginViewPage> {
   final TextEditingController phone = TextEditingController();
   final TextEditingController pass = TextEditingController();
+  final Box _box = GetIt.instance<Box>();
   Timer? timer;
   String qrCodeUrl = '';
 
@@ -48,13 +53,25 @@ class _LoginViewStateP extends State<LoginView> {
     } else {
       neteaseAccountInfoWrap = await NeteaseMusicApi().loginCellPhone(phone.text, pass.text);
     }
-    if (mounted) Navigator.of(context).pop();
     if (neteaseAccountInfoWrap.code != 200) {
       WidgetUtil.showToast(neteaseAccountInfoWrap.message ?? '未知错误');
       return;
     }
-    UserController.to.getUserState();
-    AutoRouter.of(context).pop();
+    // UserController.to.getUserState();
+    try {
+      NeteaseAccountInfoWrap neteaseAccountInfoWrap = await NeteaseMusicApi().loginAccountInfo();
+      if (neteaseAccountInfoWrap.code == 200 && neteaseAccountInfoWrap.profile != null) {
+        print('object=====================');
+       _box.put(loginData, jsonEncode(neteaseAccountInfoWrap.toJson()));
+      } else {
+        WidgetUtil.showToast('登录失效,请重新登录');
+        Home.to.loginStatus.value = LoginStatus.noLogin;
+      }
+    } catch (e) {
+      Home.to.loginStatus.value = LoginStatus.noLogin;
+      WidgetUtil.showToast('获取用户资料失败，请检查网络');
+    }
+    // AutoRouter.of(context).pop();
   }
 
   getQrCode(context) async {
@@ -94,7 +111,7 @@ class _LoginViewStateP extends State<LoginView> {
 
   @override
   Widget build(BuildContext context) {
-   return Home.to.landscape? _loginL():_loginP();
+   return _loginP();
   }
 
 
@@ -106,7 +123,7 @@ class _LoginViewStateP extends State<LoginView> {
             padding: EdgeInsets.symmetric(horizontal: 10.w),
             child: Container(
               margin: EdgeInsets.only(top: 20.w),
-              width: Get.width,
+              width: MediaQuery.of(context).size.width,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -114,7 +131,7 @@ class _LoginViewStateP extends State<LoginView> {
                     children: [
                       SvgPicture.asset(
                         AppIcons.loginTop,
-                        width: Get.width,
+                        width: MediaQuery.of(context).size.width,
                         fit: BoxFit.fitWidth,
                       ),
                       SafeArea(
@@ -146,7 +163,7 @@ class _LoginViewStateP extends State<LoginView> {
                           child: Container(
                             height: 88.w,
                             alignment: Alignment.center,
-                            width: Get.width,
+                            width: MediaQuery.of(context).size.width,
                             margin: EdgeInsets.symmetric(vertical: 40.w, horizontal: 5.w),
                             decoration: BoxDecoration(color: Theme.of(context).primaryColor, borderRadius: BorderRadius.circular(20.w)),
                             child: Text(
@@ -218,8 +235,8 @@ class _LoginViewStateP extends State<LoginView> {
             child: GestureDetector(
               child: Container(
                 color: Theme.of(context).cardColor.withOpacity(.5),
-                width: Get.width,
-                height: Get.height,
+                width: MediaQuery.of(context).size.width,
+                height: MediaQuery.of(context).size.height,
                 alignment: Alignment.center,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -263,7 +280,7 @@ class _LoginViewStateP extends State<LoginView> {
                 children: [
                   SvgPicture.asset(
                     AppIcons.loginTop,
-                    width: Get.width,
+                    width: MediaQuery.of(context).size.width,
                     fit: BoxFit.fitWidth,
                   ),
                   SafeArea(
@@ -279,7 +296,7 @@ class _LoginViewStateP extends State<LoginView> {
                 padding: EdgeInsets.symmetric(horizontal: 10.w),
                 child: Container(
                   margin: EdgeInsets.only(top: 20.w),
-                  width: Get.width,
+                  width: MediaQuery.of(context).size.width,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -303,7 +320,7 @@ class _LoginViewStateP extends State<LoginView> {
                               child: Container(
                                 height: 88.w,
                                 alignment: Alignment.center,
-                                width: Get.width,
+                                width: MediaQuery.of(context).size.width,
                                 margin: EdgeInsets.symmetric(vertical: 40.w, horizontal: 5.w),
                                 decoration: BoxDecoration(color: Theme.of(context).primaryColor, borderRadius: BorderRadius.circular(20.w)),
                                 child: Text(
@@ -377,8 +394,8 @@ class _LoginViewStateP extends State<LoginView> {
             child: GestureDetector(
               child: Container(
                 color: Theme.of(context).cardColor.withOpacity(.5),
-                width: Get.width,
-                height: Get.height,
+                width: MediaQuery.of(context).size.width,
+                height: MediaQuery.of(context).size.height,
                 alignment: Alignment.center,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,

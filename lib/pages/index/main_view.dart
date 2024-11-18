@@ -22,7 +22,7 @@ class MainView extends GetView<IndexController> {
     return Scaffold(
       backgroundColor: Colors.transparent,
       resizeToAvoidBottomInset: false,
-      appBar: Home.to.landscape?null:MyAppBar(
+      appBar: Home.to.landscape?null:AppBar(
         backgroundColor: Colors.transparent,
         centerTitle: false,
         leading: IconButton(
@@ -153,9 +153,15 @@ class MainView extends GetView<IndexController> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            SimpleExtendedImage(
-              '${albumModel.picUrl ?? ''}?param=230y230',
-              borderRadius: BorderRadius.all(Radius.circular(25.w)),
+            SizedBox(
+              width: 230.w,
+              height: 230.w,
+              child: SimpleExtendedImage(
+                '${albumModel.picUrl ?? ''}?param=230y230',
+                width: 230.w,
+                height: 230.w,
+                borderRadius: BorderRadius.all(Radius.circular(25.w)),
+              ),
             ),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,

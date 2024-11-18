@@ -55,8 +55,8 @@ class SimpleExtendedImageState extends State<SimpleExtendedImage> {
   Widget build(BuildContext context) {
     // return ExtendedImage.network(
     //   widget.url,
-    //   width: widget.width,
-    //   height: widget.height,
+    //   width: MediaQuery.of(context).size.width,
+    //   height: MediaQuery.of(context).size.height,
     //   shape: widget.shape,
     //   fit: BoxFit.cover,
     //   gaplessPlayback: true,
@@ -77,8 +77,8 @@ class SimpleExtendedImageState extends State<SimpleExtendedImage> {
     //       case LoadState.completed:
     //         image = ExtendedRawImage(
     //           image: state.extendedImageInfo?.image,
-    //           width: widget.width,
-    //           height: widget.height,
+    //           width: MediaQuery.of(context).size.width,
+    //           height: MediaQuery.of(context).size.height,
     //           fit: widget.fit ?? BoxFit.cover,
     //         );
     //         break;
@@ -98,18 +98,20 @@ class SimpleExtendedImageState extends State<SimpleExtendedImage> {
         visible: widget.shape != BoxShape.circle,
         replacement: ClipOval(
           child: CachedNetworkImage(
+            httpHeaders: const {'User-Agent':'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/117.0.0.0 Safari/537.36 Edg/117.0.2045.35'},
             imageUrl: widget.url,
-            width: widget.width,
-            height: widget.height,
+            width: MediaQuery.of(context).size.width,
+            height: MediaQuery.of(context).size.height,
             fit: widget.fit??BoxFit.cover,
           ),
         ),
         child: ClipRRect(
           borderRadius: widget.borderRadius ?? BorderRadius.circular(0),
           child: CachedNetworkImage(
+            httpHeaders: const {'User-Agent':'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/117.0.0.0 Safari/537.36 Edg/117.0.2045.35'},
             imageUrl: widget.url,
-            width: widget.width,
-            height: widget.height,
+            width: MediaQuery.of(context).size.width,
+            height: MediaQuery.of(context).size.height,
             fit: widget.fit??BoxFit.cover,
             useOldImageOnUrlChange: true,
             placeholder: (c, u) => Image.asset(
@@ -129,8 +131,8 @@ class SimpleExtendedImageState extends State<SimpleExtendedImage> {
         child: ExtendedImage.file(
           borderRadius: widget.borderRadius,
           File(widget.url.split('?').first),
-          width: widget.width,
-          height: widget.height,
+          width: MediaQuery.of(context).size.width,
+          height: MediaQuery.of(context).size.height,
           fit: widget.fit,
           loadStateChanged: (state) {
             Widget image;
@@ -138,23 +140,23 @@ class SimpleExtendedImageState extends State<SimpleExtendedImage> {
               case LoadState.loading:
                 image = Image.asset(
                   widget.placeholder,
-                  width: widget.width,
-                  height: widget.height,
+                  width: MediaQuery.of(context).size.width,
+                  height: MediaQuery.of(context).size.height,
                   fit: BoxFit.cover,
                 );
                 break;
               case LoadState.completed:
                 image = ExtendedRawImage(
                   image: state.extendedImageInfo?.image,
-                  width: widget.width,
-                  height: widget.height,
+                  width: MediaQuery.of(context).size.width,
+                  height: MediaQuery.of(context).size.height,
                   fit: BoxFit.cover,
                 );
                 break;
               case LoadState.failed:
                 image = Image.asset(
-                  width: widget.width,
-                  height: widget.height,
+                  width: MediaQuery.of(context).size.width,
+                  height: MediaQuery.of(context).size.height,
                   widget.placeholder,
                   fit: BoxFit.cover,
                 );
@@ -171,8 +173,8 @@ class SimpleExtendedImageState extends State<SimpleExtendedImage> {
     // } else {
     // return ExtendedImage.file(
     //   File(widget.url),
-    //   width: widget.width,
-    //   height: widget.height,
+    //   width: MediaQuery.of(context).size.width,
+    //   height: MediaQuery.of(context).size.height,
     //   shape: widget.shape,
     //   cacheRawData: true,
     //   gaplessPlayback: true,
@@ -187,16 +189,16 @@ class SimpleExtendedImageState extends State<SimpleExtendedImage> {
     //         image = widget.replacement ??
     //             Container(
     //               color: Colors.grey,
-    //               width: widget.width,
-    //               height: widget.height,
-    //               child: Icon(Icons.image,size:( widget.width??100/3).toDouble(),),
+    //               width: MediaQuery.of(context).size.width,
+    //               height: MediaQuery.of(context).size.height,
+    //               child: Icon(Icons.image,size:( MediaQuery.of(context).size.width??100/3).toDouble(),),
     //             );
     //         break;
     //       case LoadState.completed:
     //         image = ExtendedRawImage(
     //           image: state.extendedImageInfo?.image,
-    //           width: widget.width,
-    //           height: widget.height,
+    //           width: MediaQuery.of(context).size.width,
+    //           height: MediaQuery.of(context).size.height,
     //           fit: widget.fit ?? BoxFit.cover,
     //         );
     //         break;

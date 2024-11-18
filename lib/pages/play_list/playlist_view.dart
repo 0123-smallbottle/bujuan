@@ -34,7 +34,7 @@ class PlayListView extends GetView<PlayListController> {
             replacement: const LoadingView(),
             child: CustomScrollView(
               slivers: [
-                MySliverAppBar(
+                SliverAppBar(
                   backgroundColor: Theme.of(context).scaffoldBackgroundColor.withOpacity(Home.to.background.value.isEmpty ? 1 : 0),
                   pinned: true,
                   leading: IconButton(
@@ -231,12 +231,12 @@ class SongItemShowImage extends StatelessWidget {
     }
     return ListTile(
       contentPadding: EdgeInsets.symmetric(horizontal: 10.w),
-      leading: SimpleExtendedImage.avatar(
-        '${mediaItem.extras?['image'] ?? ''}?param=120y120',
-        width: 85.w,
-        height: 85.w,
-        fit: BoxFit.cover,
-      ),
+      // leading: SimpleExtendedImage.avatar(
+      //   '${mediaItem.extras?['image'] ?? ''}?param=120y120',
+      //   width: 85.w,
+      //   height: 85.w,
+      //   fit: BoxFit.cover,
+      // ),
       title: RichText(
           text: TextSpan(text: mediaItem.title, style: TextStyle(fontSize: 30.sp, color: Theme.of(context).cardColor), children: [
         TextSpan(text: mediaItem.extras?['fee'] == 1 ? '   vip' : '', style: TextStyle(color: Theme.of(context).primaryColor.withOpacity(.9), fontSize: 26.sp)),

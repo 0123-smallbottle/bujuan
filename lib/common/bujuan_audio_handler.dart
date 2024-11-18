@@ -14,7 +14,6 @@ import 'package:get_it/get_it.dart';
 import 'package:hive_flutter/adapters.dart';
 import 'package:just_audio/just_audio.dart';
 
-import '../ffi.dart';
 import 'audio_player_handler.dart';
 import 'constants/key.dart';
 import 'constants/platform_utils.dart';
@@ -198,10 +197,10 @@ class BujuanAudioHandler extends BaseAudioHandler with SeekHandler, QueueHandler
 
   @override
   Future<void> changeQueueLists(List<MediaItem> list, {int index = 0, bool init = false}) async {
-    if (!init && Home.to.fm.value) {
-      Home.to.fm.value = false;
-      _box.put(fmSp, false);
-    }
+    // if (!init && Home.to.fm.value) {
+    //   Home.to.fm.value = false;
+    //   _box.put(fmSp, false);
+    // }
     _curIndex = index;
     _playList
       ..clear()
@@ -246,8 +245,8 @@ class BujuanAudioHandler extends BaseAudioHandler with SeekHandler, QueueHandler
 
   @override
   Future<void> readySongUrl({bool isNext = true, bool playIt = true}) async {
-    bool high = !playIt ? _box.get(highSong) ?? false : Home.to.high.value;
-    bool cache = !playIt ? _box.get(cacheSp) ?? false : Home.to.cache.value;
+    bool high = false;
+    bool cache = false;
     // 这里是获取歌曲url
     if (queue.value.isEmpty) return;
     var song = queue.value[_curIndex];
@@ -303,14 +302,15 @@ class BujuanAudioHandler extends BaseAudioHandler with SeekHandler, QueueHandler
   }
 
   Future<String> getUnblockUrl(MediaItem song) async {
-    try {
-      String url = await api.getUnblockNeteaseMusicUrl(songName: song.title, artistsName: song.artist ?? '');
-      print('============UnblockNeteaseMusic启动成功=============${song.title}==============$url');
-      return url;
-    } catch (e) {
-      print('===========rust获取失败===========');
-      return '';
-    }
+    // try {
+    //   String url = await api.getUnblockNeteaseMusicUrl(songName: song.title, artistsName: song.artist ?? '');
+    //   print('============UnblockNeteaseMusic启动成功=============${song.title}==============$url');
+    //   return url;
+    // } catch (e) {
+    //   print('===========rust获取失败===========');
+    //   return '';
+    // }
+    return '';
   }
 
   @override
@@ -335,13 +335,13 @@ class BujuanAudioHandler extends BaseAudioHandler with SeekHandler, QueueHandler
     _setCurrIndex(next: true);
     print('下一首=======$_curIndex');
     await readySongUrl();
-    if (Home.to.fm.value) {
-      // 如果是私人fm
-      if (_curIndex == queue.value.length - 1) {
-        // 判断如果是最后一首
-        Home.to.getFmSongList();
-      }
-    }
+    // if (Home.to.fm.value) {
+    //   // 如果是私人fm
+    //   if (_curIndex == queue.value.length - 1) {
+    //     // 判断如果是最后一首
+    //     Home.to.getFmSongList();
+    //   }
+    // }
   }
 
   @override
@@ -352,16 +352,21 @@ class BujuanAudioHandler extends BaseAudioHandler with SeekHandler, QueueHandler
   }
 
   void _setCurrIndex({bool next = false}) {
-    if (_audioServiceRepeatMode == AudioServiceRepeatMode.one) return;
-    var list = _audioServiceRepeatMode == AudioServiceRepeatMode.none ? _playListShut : _playList;
-    if (next ? _curIndex >= list.length - 1 : _curIndex <= 0) {
-      next ? _curIndex = 0 : _curIndex = list.length - 1;
-    } else {
-      next ? _curIndex++ : _curIndex--;
-    }
-    _box.put(playByIndex, _curIndex);
+   if (_audioServiceRepeatMode == AudioServiceRepeatMode.one) return;
 
-    // StorageUtil().setInt(playByIndex, _curIndex);
+  var list = _audioServiceRepeatMode == AudioServiceRepeatMode.none ? _playListShut : _playList;
+
+  // 计算新的索引值
+  _curIndex = next ? _curIndex + 1 : _curIndex - 1;
+
+  // 如果超出索引范围，循环到列表的开始或结尾
+  if (_curIndex >= list.length) {
+    _curIndex = 0;
+  } else if (_curIndex < 0) {
+    _curIndex = list.length - 1;
+  }
+
+  _box.put(playByIndex, _curIndex);
   }
 
   @override

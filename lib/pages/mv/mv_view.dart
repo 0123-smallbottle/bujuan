@@ -108,12 +108,12 @@ class _MvWidgetState extends State<MvWidget> {
     return WillPopScope(
         child: GestureDetector(
           child: SizedBox(
-            height: !isLandscape ? 750.w / (16 / 9) : Get.height,
+            height: !isLandscape ? 750.w / (16 / 9) : MediaQuery.of(context).size.height,
             child: Stack(
               alignment: Alignment.center,
               children: [
                 Container(
-                  height: !isLandscape ? 750.w / (16 / 9) : Get.height,
+                  height: !isLandscape ? 750.w / (16 / 9) : MediaQuery.of(context).size.height,
                   color: Colors.black,
                 ),
                 GestureDetector(

@@ -226,6 +226,7 @@ class RecommendView extends GetView<Home> {
   }
 
   Widget _buildArtistsList() {
+    return SizedBox();
     return Obx(() {
       return controller.mediaItem.value.extras!['artist'] != null?ListView.builder(
         itemBuilder: (context, index) => InkWell(
@@ -307,7 +308,7 @@ class RecommendView extends GetView<Home> {
   Widget _buildPlayListItem(Play play, int index, BuildContext context) {
     return InkWell(
       child: Obx(() => SizedBox(
-            width: Get.width,
+            width: MediaQuery.of(context).size.width,
             height: 110.w,
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.center,

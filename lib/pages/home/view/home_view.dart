@@ -35,12 +35,12 @@ class HomeView extends GetView<Home> {
                   Obx(() => SimpleExtendedImage(
                         Home.to.mediaItem.value.extras?['image'] ?? '',
                         fit: BoxFit.cover,
-                        width: Get.width,
-                        height: Get.height,
+                        width: MediaQuery.of(context).size.width,
+                        height: MediaQuery.of(context).size.height,
                       )),
                   Container(
-                    width: Get.width,
-                    height: Get.height,
+                    width: MediaQuery.of(context).size.width,
+                    height: MediaQuery.of(context).size.height,
                     color: Theme.of(context).scaffoldBackgroundColor.withOpacity(.7),
                   ),
                   Obx(() => AnimatedContainer(
@@ -87,17 +87,17 @@ class HomeView extends GetView<Home> {
                   controller: controller.panelControllerHome,
                   onPanelSlide: (value) => controller.changeSlidePosition(value),
                   boxShadow: const [BoxShadow(blurRadius: 8.0, color: Color.fromRGBO(0, 0, 0, 0.05))],
-                  panel: const PanelView(),
+                  panelBuilder:() => const PanelView(),
                   body: const BodyView(),
                   minHeight: controller.panelMobileMinSize + bottomHeight + controller.panelAlbumPadding * 2,
-                  maxHeight: Get.height,
+                  maxHeight: MediaQuery.of(context).size.height,
                   header: _buildHeader(context, bottomHeight),
                 ),
                 dragOffset: 260.w,
                 // angle: -11,
                 menuBackgroundColor: Theme.of(context).scaffoldBackgroundColor.withOpacity(.1),
-                slideWidth: Get.width * .6,
-                menuScreenWidth: Get.width * .6,
+                slideWidth: MediaQuery.of(context).size.width * .6,
+                menuScreenWidth: MediaQuery.of(context).size.width * .6,
                 mainScreenScale: 0.2,
                 duration: const Duration(milliseconds: 200),
                 reverseDuration: const Duration(milliseconds: 200),
@@ -146,30 +146,26 @@ class HomeView extends GetView<Home> {
       },
       child: Obx(() => GestureDetector(
         onVerticalDragEnd: (controller.second.value) ? (e) {} : null,
-        child: Swipeable(
-            background: const SizedBox.shrink(),
-            child: InkWell(
-              child: Container(
-                width: 750.w,
-                padding: EdgeInsets.all(controller.panelAlbumPadding),
-                child: Stack(
-                  alignment: Alignment.centerLeft,
-                  children: [
-                    _buildMediaTitle(context),
-                    _buildAlbum(),
-                  ],
-                ),
-              ),
-              onTap: () {
-                if (controller.panelControllerHome.isPanelClosed) {
-                  controller.panelControllerHome.open();
-                } else {
-                  if (controller.panelController.isPanelOpen) controller.panelController.close();
-                }
-              },
+        child: InkWell(
+          child: Container(
+            width: 750.w,
+            padding: EdgeInsets.all(controller.panelAlbumPadding),
+            child: Stack(
+              alignment: Alignment.centerLeft,
+              children: [
+                _buildMediaTitle(context),
+                _buildAlbum(),
+              ],
             ),
-            onSwipeLeft: () => controller.audioServeHandler.skipToPrevious(),
-            onSwipeRight: () => controller.audioServeHandler.skipToNext()),
+          ),
+          onTap: () {
+            if (controller.panelControllerHome.isPanelClosed) {
+              controller.panelControllerHome.open();
+            } else {
+              if (controller.panelController.isPanelOpen) controller.panelController.close();
+            }
+          },
+        ),
       )),
     );
   }
@@ -245,14 +241,14 @@ class HomeView extends GetView<Home> {
     //           return Container(
     //             height: controller.panelMobileMinSize +
     //                 controller.panelAlbumPadding * 2 +
-    //                 (Get.width/8*3*.86 - controller.panelMobileMinSize + controller.panelAlbumPadding * 2) * controller.animationController.value,
+    //                 (MediaQuery.of(context).size.width/8*3*.86 - controller.panelMobileMinSize + controller.panelAlbumPadding * 2) * controller.animationController.value,
     //             alignment: Alignment.centerLeft,
     //             child: child,
     //           );
     //         },
     //         child: InkWell(
     //           child: Container(
-    //             width: Get.width,
+    //             width: MediaQuery.of(context).size.width,
     //             padding: EdgeInsets.symmetric(horizontal: controller.panelAlbumPadding),
     //             child: Stack(
     //               alignment: Alignment.centerLeft,
@@ -276,20 +272,20 @@ class HomeView extends GetView<Home> {
               return Container(
                 height: controller.panelMobileMinSize +
                     controller.panelAlbumPadding * 2 +
-                    (Get.width / 8 * 3 * .86 - controller.panelMobileMinSize + controller.panelAlbumPadding * 2) * controller.animationController.value,
+                    (MediaQuery.of(context).size.width / 8 * 3 * .86 - controller.panelMobileMinSize + controller.panelAlbumPadding * 2) * controller.animationController.value,
                 alignment: Alignment.centerLeft,
                 child: child,
               );
             },
             child: InkWell(
               child: Container(
-                width: Get.width,
+                width: MediaQuery.of(context).size.width,
                 padding: EdgeInsets.symmetric(horizontal: controller.panelAlbumPadding),
                 child: Stack(
                   alignment: Alignment.centerLeft,
                   children: [
                     _buildMediaTitleL(context),
-                    _buildAlbumL(),
+                    _buildAlbumL(context),
                   ],
                 ),
               ),
@@ -345,9 +341,9 @@ class HomeView extends GetView<Home> {
   }
 
   //构建歌曲专辑
-  Widget _buildAlbumL() {
-    double albumWidth = Get.width / 8 * 3 * .86;
-    double leftWidth = Get.width / 8 * 3;
+  Widget _buildAlbumL(BuildContext context) {
+    double albumWidth = MediaQuery.of(context).size.width / 8 * 3 * .86;
+    double leftWidth = MediaQuery.of(context).size.width / 8 * 3;
     return AnimatedBuilder(
       animation: controller.animationController,
       builder: (context, index) {

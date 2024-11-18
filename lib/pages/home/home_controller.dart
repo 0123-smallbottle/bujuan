@@ -793,6 +793,11 @@ class Home extends SuperController with GetSingleTickerProviderStateMixin {
     //   }
     // });
   }
+
+  @override
+  void onHidden() {
+    // TODO: implement onHidden
+  }
 }
 
 class SleepDate {

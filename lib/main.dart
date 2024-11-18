@@ -1,31 +1,32 @@
 import 'package:audio_service/audio_service.dart';
-
 import 'package:auto_route/auto_route.dart';
+
 import 'package:bujuan/common/bujuan_audio_handler.dart';
 import 'package:bujuan/common/constants/other.dart';
 import 'package:bujuan/common/constants/platform_utils.dart';
+import 'package:bujuan/common/netease_api/netease_music_api.dart';
 import 'package:bujuan/pages/album/controller.dart';
 import 'package:bujuan/pages/home/home_binding.dart';
 import 'package:bujuan/pages/index/cound_controller.dart';
 import 'package:bujuan/pages/index/index_controller.dart';
 import 'package:bujuan/pages/play_list/playlist_controller.dart';
 import 'package:bujuan/pages/playlist_manager/playlist_manager_controller.dart';
-import 'package:bujuan/pages/playlist_manager/playlist_manager_view.dart';
 import 'package:bujuan/pages/user/user_controller.dart';
 import 'package:bujuan/routes/router.gr.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_displaymode/flutter_displaymode.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_zoom_drawer/flutter_zoom_drawer.dart';
 import 'package:get/get.dart';
 import 'package:get_it/get_it.dart';
+import 'package:go_router/go_router.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:window_manager/window_manager.dart';
 
 import 'common/constants/colors.dart';
-import 'common/netease_api/src/netease_api.dart';
 
 main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -34,18 +35,48 @@ main() async {
   await _initAudioServer(getIt);
   final rootRouter = getIt<RootRouter>();
   if (PlatformUtils.isAndroid) {
-    await FlutterDisplayMode.setHighRefreshRate();
-    SystemUiOverlayStyle systemUiOverlayStyle = const SystemUiOverlayStyle(
+    // await FlutterDisplayMode.setHighRefreshRate();
+    // SystemChrome.setEnabledSystemUIMode(
+    //   SystemUiMode.edgeToEdge,
+    // );
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark.copyWith(
+      // 沉浸式状态栏（仅安卓）
       statusBarColor: Colors.transparent,
+      // 沉浸式导航指示器
       systemNavigationBarColor: Colors.transparent,
-      systemNavigationBarContrastEnforced: false,
-    );
-    SystemChrome.setSystemUIOverlayStyle(systemUiOverlayStyle);
+    ));
   }
   //如果满足横屏条件，强制屏幕为横屏
   if (land) {
     SystemChrome.setPreferredOrientations([DeviceOrientation.landscapeLeft, DeviceOrientation.landscapeRight]);
   }
+  //外部
+  // final rootNavigatorKey = GlobalKey<NavigatorState>();
+  // final shellNavigatorKey = GlobalKey<NavigatorState>();
+  // final router = GoRouter(
+  //   navigatorKey: rootNavigatorKey,
+  //   routes: [
+  //     ShellRoute(navigatorKey: shellNavigatorKey, builder: (BuildContext context, GoRouterState state, Widget child) => Outside(child: child), routes: [
+  //       GoRoute(path: '/', builder: (c, s) => const HomePage(), routes: [
+  //         GoRoute(path: 'playlist', builder: (c, s) => PlayList(s.extra! as Play)),
+  //       ]),
+  //       GoRoute(path: '/user', builder: (c, s) => const User()),
+  //       GoRoute(path: '/login', builder: (c, s) => const LoginViewPage()),
+  //     ])
+  //   ],
+  // );
+  // SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge).then((value) => runApp(ProviderScope(
+  //     child: ScreenUtilInit(
+  //         designSize: const Size(750, 1334),
+  //         minTextAdapt: true,
+  //         splitScreenMode: true,
+  //         builder: (context, child) {
+  //           return MaterialApp.router(
+  //             // showPerformanceOverlay: true,
+  //             theme: AppTheme.light,
+  //             routerConfig: router,
+  //           );
+  //         }))));
   SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge).then((value) => runApp(ScreenUtilInit(
         designSize: !land ? const Size(750, 1334) : const Size(2339, 1080),
         minTextAdapt: true,
@@ -115,10 +146,6 @@ class MyObserver extends AutoRouterObserver {
     _clearOrPutController(route.settings.name ?? '', del: true);
   }
 
-  @override
-  void didReplace({Route? newRoute, Route? oldRoute}) {
-    super.didReplace(newRoute: newRoute, oldRoute: oldRoute);
-  }
 
   // only override to observer tab routes
   @override

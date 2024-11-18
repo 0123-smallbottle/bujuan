@@ -13,6 +13,7 @@ import 'package:bujuan/pages/setting/user_setting_view.dart';
 import 'package:bujuan/pages/talk/talk_view.dart';
 import 'package:bujuan/pages/today/today_view.dart';
 import 'package:bujuan/pages/user/user_view.dart';
+import 'package:go_router/go_router.dart';
 
 import '../pages/album/album_details.dart';
 import '../pages/artists/artists_view.dart';
@@ -111,7 +112,6 @@ abstract class _Paths {
       AutoRoute(path: Routes.playlistManager, page: PlaylistManagerView),
     ]),
     AutoRoute(path: Routes.splash, page: SplashPage, initial: true, deferredLoading: true),
-    AutoRoute(path: Routes.login, page: LoginView),
     AutoRoute(path: Routes.talk, page: TalkView),
     AutoRoute(path: Routes.setting, page: SettingView),
     AutoRoute(path: Routes.guide, page: GuideView),
@@ -146,3 +146,4 @@ class $RootRouter {}
 //     )
 //   ],
 // );
+

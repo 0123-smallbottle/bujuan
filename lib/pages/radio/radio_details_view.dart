@@ -30,7 +30,7 @@ class _RadioDetailsViewState extends State<RadioDetailsView> {
   Widget build(BuildContext context) {
     return MyGetView(child: Scaffold(
       backgroundColor: Colors.transparent,
-      appBar: MyAppBar(
+      appBar: AppBar(
         title: Text((context.routeData.args as DjRadio).name),
         backgroundColor: Colors.transparent,
       ),

@@ -66,7 +66,7 @@ class _SettingViewState extends State<SettingView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: MyAppBar(
+      appBar: AppBar(
         title: const Text('设置'),
       ),
       body: SingleChildScrollView(
@@ -336,7 +336,7 @@ class _SettingViewStateL extends State<SettingViewL> {
       backgroundColor: Colors.transparent,
       appBar: Home.to.landscape
           ? null
-          : MyAppBar(
+          : AppBar(
               backgroundColor: Colors.transparent,
               centerTitle: false,
               leading: IconButton(

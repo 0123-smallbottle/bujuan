@@ -40,7 +40,7 @@ class UpdateView extends StatelessWidget {
               ),
               SvgPicture.asset(
                 AppIcons.update,
-                width: Get.width / 1.5,
+                width: MediaQuery.of(context).size.width / 1.5,
                 fit: BoxFit.fitWidth,
               ),
               Padding(padding: EdgeInsets.symmetric(vertical: 30.w)),
@@ -66,7 +66,7 @@ class UpdateView extends StatelessWidget {
                   child: Container(
                     height: 88.w,
                     alignment: Alignment.center,
-                    width: Get.width,
+                    width: MediaQuery.of(context).size.width,
                     margin: EdgeInsets.symmetric(vertical: 40.w, horizontal: 25.w),
                     decoration: BoxDecoration(color: Theme.of(context).primaryColor, borderRadius: BorderRadius.circular(20.w)),
                     child: Text(

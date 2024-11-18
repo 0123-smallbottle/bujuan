@@ -67,14 +67,14 @@ class LoadingView extends StatelessWidget {
     return Scaffold(
       backgroundColor: Home.to.landscape || Home.to.background.value.isNotEmpty ? Colors.transparent : Theme.of(context).scaffoldBackgroundColor,
       body: SizedBox(
-        width: Get.width,
-        height: Get.height,
+        width: MediaQuery.of(context).size.width,
+        height: MediaQuery.of(context).size.height,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            // SvgPicture.asset(AppIcons.loading,width: Get.width/2.9,),
-            Lottie.asset('assets/lottie/empty_status.json', height: Home.to.landscape ? 250.w : Get.width / 3.5, fit: BoxFit.fitHeight, filterQuality: FilterQuality.low),
+            // SvgPicture.asset(AppIcons.loading,width: MediaQuery.of(context).size.width/2.9,),
+            Lottie.asset('assets/lottie/empty_status.json', height: Home.to.landscape ? 250.w : MediaQuery.of(context).size.width / 3.5, fit: BoxFit.fitHeight, filterQuality: FilterQuality.low),
             Text(tips ?? '加载中...', style: TextStyle(fontSize: 28.sp)),
           ],
         ),
@@ -89,14 +89,14 @@ class EmptyView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: Get.width,
-      height: Get.height,
+      width: MediaQuery.of(context).size.width,
+      height: MediaQuery.of(context).size.height,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          // SvgPicture.asset(AppIcons.loading,width: Get.width/2.9,),
-          Lottie.asset('assets/lottie/empty.json', height: Get.width / 2, fit: BoxFit.fitHeight, filterQuality: FilterQuality.low),
+          // SvgPicture.asset(AppIcons.loading,width: MediaQuery.of(context).size.width/2.9,),
+          Lottie.asset('assets/lottie/empty.json', height: MediaQuery.of(context).size.width / 2, fit: BoxFit.fitHeight, filterQuality: FilterQuality.low),
           Text('暂无数据...', style: TextStyle(fontSize: 28.sp)),
         ],
       ),
@@ -110,14 +110,14 @@ class ErrorView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: Get.width,
-      height: Get.height,
+      width: MediaQuery.of(context).size.width,
+      height: MediaQuery.of(context).size.height,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          // SvgPicture.asset(AppIcons.loading,width: Get.width/2.9,),
-          Lottie.asset('assets/lottie/no_internet_connection.json', height: Get.width / 2.5, fit: BoxFit.fitHeight, filterQuality: FilterQuality.low),
+          // SvgPicture.asset(AppIcons.loading,width: MediaQuery.of(context).size.width/2.9,),
+          Lottie.asset('assets/lottie/no_internet_connection.json', height: MediaQuery.of(context).size.width / 2.5, fit: BoxFit.fitHeight, filterQuality: FilterQuality.low),
           Text('网络错误', style: TextStyle(fontSize: 32.sp)),
         ],
       ),

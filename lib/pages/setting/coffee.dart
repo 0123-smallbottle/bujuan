@@ -10,7 +10,7 @@ class CoffeePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: MyAppBar(
+      appBar: AppBar(
         title: const Text('赞助开发者'),
       ),
       body: SingleChildScrollView(
@@ -22,7 +22,7 @@ class CoffeePage extends StatelessWidget {
               borderRadius: BorderRadius.circular(30.w),
               child: Image.asset(
                 'assets/images/coffee.jpg',
-                width: Get.width,
+                width: MediaQuery.of(context).size.width,
                 fit: BoxFit.fitWidth,
               ),
             ),

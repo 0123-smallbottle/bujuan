@@ -18,7 +18,7 @@ class AlbumDetails extends GetView<AlbumController> {
     controller.context = context;
     return Scaffold(
       backgroundColor: Colors.transparent,
-      appBar: MyAppBar(
+      appBar: AppBar(
         backgroundColor: Colors.transparent,
         title: Text((context.routeData.queryParams.get('album') as Album).name ?? ''),
       ),

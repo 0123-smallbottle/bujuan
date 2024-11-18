@@ -62,7 +62,7 @@ class _TalkViewState extends State<TalkView> with SingleTickerProviderStateMixin
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.transparent,
-      appBar: MyAppBar(
+      appBar: AppBar(
         title: Text(context.routeData.queryParams.getString('name')),
         bottom: TabBar(
           tabs: _tabs

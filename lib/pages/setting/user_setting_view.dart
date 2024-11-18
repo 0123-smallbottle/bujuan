@@ -27,7 +27,7 @@ class _UserSettingViewState extends State<UserSettingView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: MyAppBar(title: const Text('个人信息'),),
+      appBar: AppBar(title: const Text('个人信息'),),
       body: RequestWidget<NeteaseUserDetail>(
         dioMetaData: userDetailDioMetaData(Home.to.userData.value.profile?.userId ?? ''),
         childBuilder: (userData) => Column(
@@ -42,7 +42,7 @@ class _UserSettingViewState extends State<UserSettingView> {
                         alignment: Alignment.topCenter,
                         children: [
                           Container(
-                            width: Get.width,
+                            width: MediaQuery.of(context).size.width,
                             margin: EdgeInsets.only(top: 200.w),
                             padding: EdgeInsets.only(left: 15.w, right: 15.w, bottom: 25.w, top: 80.w),
                             decoration: BoxDecoration(color: Theme.of(context).colorScheme.onSecondary, borderRadius: BorderRadius.circular(25.w)),
@@ -86,7 +86,7 @@ class _UserSettingViewState extends State<UserSettingView> {
                     child: Container(
                       height: 88.w,
                       alignment: Alignment.center,
-                      width: Get.width,
+                      width: MediaQuery.of(context).size.width,
                       margin: EdgeInsets.symmetric(vertical: 40.w, horizontal: 35.w),
                       decoration: BoxDecoration(color: Theme.of(context).primaryColor, borderRadius: BorderRadius.circular(20.w)),
                       child: Text(

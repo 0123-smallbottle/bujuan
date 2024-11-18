@@ -43,9 +43,10 @@ class UserViewP extends GetView<UserController> {
         child: Obx(() => Visibility(
               visible: !controller.loading.value,
               replacement: const LoadingView(),
+              child: const SizedBox.shrink(),
               // child: Scaffold(
               //   backgroundColor: Colors.transparent,
-              //   appBar: MyAppBar(
+              //   appBar: AppBar(
               //     backgroundColor: Theme.of(context).scaffoldBackgroundColor.withOpacity(Home.to.background.value.isEmpty ? 1 : 0),
               //     leading: IconButton(
               //         onPressed: () {
@@ -81,8 +82,8 @@ class UserViewP extends GetView<UserController> {
               //           children: [
               //             Container(
               //               margin: EdgeInsets.only(top: 35.w),
-              //               width: Get.width / 1.35,
-              //               height: Get.width / 1.6,
+              //               width: MediaQuery.of(context).size.width / 1.35,
+              //               height: MediaQuery.of(context).size.width / 1.6,
               //               decoration: BoxDecoration(
               //                 borderRadius: BorderRadius.circular(65.w),
               //                 color: const Color(0xFFBEBBBB).withAlpha(60),
@@ -90,8 +91,8 @@ class UserViewP extends GetView<UserController> {
               //             ),
               //             Container(
               //               margin: EdgeInsets.only(top: 18.w),
-              //               width: Get.width / 1.2,
-              //               height: Get.width / 1.6,
+              //               width: MediaQuery.of(context).size.width / 1.2,
+              //               height: MediaQuery.of(context).size.width / 1.6,
               //               decoration: BoxDecoration(
               //                 borderRadius: BorderRadius.circular(65.w),
               //                 color: const Color(0xFFBEBBBB).withAlpha(160),
@@ -101,8 +102,8 @@ class UserViewP extends GetView<UserController> {
               //                   margin: EdgeInsets.symmetric(horizontal: 30.w),
               //                   child: SimpleExtendedImage(
               //                     '${controller.play.value.coverImgUrl ?? ''}?param=800y800',
-              //                     width: Get.width,
-              //                     height: Get.width / 1.6,
+              //                     width: MediaQuery.of(context).size.width,
+              //                     height: MediaQuery.of(context).size.width / 1.6,
               //                     borderRadius: BorderRadius.circular(65.w),
               //                   ),
               //                 )),
@@ -113,7 +114,7 @@ class UserViewP extends GetView<UserController> {
               //                   borderRadius: BorderRadius.only(bottomLeft: Radius.circular(65.w), bottomRight: Radius.circular(65.w)),
               //                   color: Theme.of(context).scaffoldBackgroundColor.withOpacity(.6),
               //                 ),
-              //                 width: Get.width - 60.w,
+              //                 width: MediaQuery.of(context).size.width - 60.w,
               //                 child: ClipRRect(
               //                   borderRadius: BorderRadius.only(bottomLeft: Radius.circular(65.w), bottomRight: Radius.circular(65.w)),
               //                   child: BackdropFilter(
@@ -194,109 +195,109 @@ class UserViewP extends GetView<UserController> {
               //     ],
               //   ),
               // ),
-              child: DraggableHome(
-                physics: const BouncingScrollPhysics(),
-                backgroundColor: Colors.transparent,
-                appBarColor: Theme.of(context).scaffoldBackgroundColor.withOpacity(Home.to.background.value.isEmpty ? 1 : 0),
-                curvedBodyRadius: 0,
-                leading: IconButton(
-                    onPressed: () {
-                      if (Home.to.loginStatus.value == LoginStatus.login) {
-                        Home.to.myDrawerController.open!();
-                        return;
-                      }
-                      AutoRouter.of(context).pushNamed(Routes.login);
-                    },
-                    icon: Obx(() => SimpleExtendedImage.avatar(
-                          Home.to.userData.value.profile?.avatarUrl ?? '',
-                          width: 80.w,
-                        ))),
-                headerExpandedHeight: .23,
-                centerTitle: false,
-                actions: [
-                  IconButton(
-                      onPressed: () {
-                        AutoRouter.of(context).pushNamed(Routes.search);
-                      },
-                      icon: const Icon(TablerIcons.search))
-                ],
-                alwaysShowLeadingAndAction: true,
-                title: ClassStatelessWidget(
-                    child: RichText(
-                        text: TextSpan(style: TextStyle(fontSize: 42.sp, color: Colors.grey, fontWeight: FontWeight.bold), text: 'Hi  ', children: [
-                  TextSpan(text: '${Home.to.userData.value.profile?.nickname}～', style: TextStyle(color: Theme.of(context).primaryColor.withOpacity(.9))),
-                ]))),
-                body: [
-                  GridView.count(
-                    padding: const EdgeInsets.only(top: 0),
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    crossAxisCount: 4,
-                    childAspectRatio: .75,
-                    //设置内边距
-                    //设置横向间距
-                    crossAxisSpacing: 40,
-                    //设置主轴间距
-                    mainAxisSpacing: 10,
-                    children: controller.userItems
-                        .map((e) => Column(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                IconButton(
-                                  onPressed: () {
-                                    if ((e.routes ?? '') == 'playFm') {
-                                      Home.to.audioServeHandler.setRepeatMode(AudioServiceRepeatMode.all);
-                                      Home.to.audioServiceRepeatMode.value = AudioServiceRepeatMode.all;
-                                      Home.to.box.put(repeatModeSp, AudioServiceRepeatMode.all.name);
-                                      Home.to.getFmSongList();
-                                      return;
-                                    }
-                                    AutoRouter.of(context).pushNamed(e.routes ?? '');
-                                  },
-                                  icon: Icon(e.iconData),
-                                  iconSize: 52.w,
-                                ),
-                                Text(
-                                  e.title,
-                                  style: TextStyle(fontSize: 26.sp),
-                                )
-                              ],
-                            ))
-                        .toList(),
-                  ),
-                  _buildHeader('喜欢的音乐', context),
-                  ListTile(
-                    leading: Obx(() => SimpleExtendedImage(
-                          '${controller.play.value.coverImgUrl ?? ''}?param=200y200',
-                          width: 100.w,
-                          height: 100.w,
-                          borderRadius: BorderRadius.circular(100.w),
-                        )),
-                    title: Obx(() => Text(
-                          controller.play.value.name ?? '',
-                          maxLines: 1,
-                          style: TextStyle(fontSize: 30.sp, fontWeight: FontWeight.bold),
-                        )),
-                    subtitle: Obx(() => Text(
-                          '${controller.play.value.trackCount ?? 0} 首',
-                          style: TextStyle(fontSize: 26.sp),
-                        )),
-                    onTap: () => context.router.push(const gr.PlayListView().copyWith(args: controller.play.value)),
-                  ),
-                  _buildHeader('我的歌单', context, actionStr: '查看/管理'),
-                  Obx(() => ListView.builder(
-                        padding: EdgeInsets.symmetric(horizontal: 20.w),
-                        shrinkWrap: true,
-                        addRepaintBoundaries: false,
-                        addAutomaticKeepAlives: false,
-                        physics: const NeverScrollableScrollPhysics(),
-                        itemBuilder: (content, index) => PlayListItem(play: controller.playlist[index]),
-                        itemCount: controller.playlist.length > 10 ? 10 : controller.playlist.length,
-                        itemExtent: 120.w,
-                      )),
-                ],
-                headerWidget: _buildMeInfo(context),
-              ),
+              // child: DraggableHome(
+              //   physics: const BouncingScrollPhysics(),
+              //   backgroundColor: Colors.transparent,
+              //   appBarColor: Theme.of(context).scaffoldBackgroundColor.withOpacity(Home.to.background.value.isEmpty ? 1 : 0),
+              //   curvedBodyRadius: 0,
+              //   leading: IconButton(
+              //       onPressed: () {
+              //         if (Home.to.loginStatus.value == LoginStatus.login) {
+              //           Home.to.myDrawerController.open!();
+              //           return;
+              //         }
+              //         AutoRouter.of(context).pushNamed(Routes.login);
+              //       },
+              //       icon: Obx(() => SimpleExtendedImage.avatar(
+              //             Home.to.userData.value.profile?.avatarUrl ?? '',
+              //             width: 80.w,
+              //           ))),
+              //   headerExpandedHeight: .23,
+              //   centerTitle: false,
+              //   actions: [
+              //     IconButton(
+              //         onPressed: () {
+              //           AutoRouter.of(context).pushNamed(Routes.search);
+              //         },
+              //         icon: const Icon(TablerIcons.search))
+              //   ],
+              //   alwaysShowLeadingAndAction: true,
+              //   title: ClassStatelessWidget(
+              //       child: RichText(
+              //           text: TextSpan(style: TextStyle(fontSize: 42.sp, color: Colors.grey, fontWeight: FontWeight.bold), text: 'Hi  ', children: [
+              //     TextSpan(text: '${Home.to.userData.value.profile?.nickname}～', style: TextStyle(color: Theme.of(context).primaryColor.withOpacity(.9))),
+              //   ]))),
+              //   body: [
+              //     GridView.count(
+              //       padding: const EdgeInsets.only(top: 0),
+              //       shrinkWrap: true,
+              //       physics: const NeverScrollableScrollPhysics(),
+              //       crossAxisCount: 4,
+              //       childAspectRatio: .75,
+              //       //设置内边距
+              //       //设置横向间距
+              //       crossAxisSpacing: 40,
+              //       //设置主轴间距
+              //       mainAxisSpacing: 10,
+              //       children: controller.userItems
+              //           .map((e) => Column(
+              //                 crossAxisAlignment: CrossAxisAlignment.center,
+              //                 children: [
+              //                   IconButton(
+              //                     onPressed: () {
+              //                       if ((e.routes ?? '') == 'playFm') {
+              //                         Home.to.audioServeHandler.setRepeatMode(AudioServiceRepeatMode.all);
+              //                         Home.to.audioServiceRepeatMode.value = AudioServiceRepeatMode.all;
+              //                         Home.to.box.put(repeatModeSp, AudioServiceRepeatMode.all.name);
+              //                         Home.to.getFmSongList();
+              //                         return;
+              //                       }
+              //                       AutoRouter.of(context).pushNamed(e.routes ?? '');
+              //                     },
+              //                     icon: Icon(e.iconData),
+              //                     iconSize: 52.w,
+              //                   ),
+              //                   Text(
+              //                     e.title,
+              //                     style: TextStyle(fontSize: 26.sp),
+              //                   )
+              //                 ],
+              //               ))
+              //           .toList(),
+              //     ),
+              //     _buildHeader('喜欢的音乐', context),
+              //     ListTile(
+              //       leading: Obx(() => SimpleExtendedImage(
+              //             '${controller.play.value.coverImgUrl ?? ''}?param=200y200',
+              //             width: 100.w,
+              //             height: 100.w,
+              //             borderRadius: BorderRadius.circular(100.w),
+              //           )),
+              //       title: Obx(() => Text(
+              //             controller.play.value.name ?? '',
+              //             maxLines: 1,
+              //             style: TextStyle(fontSize: 30.sp, fontWeight: FontWeight.bold),
+              //           )),
+              //       subtitle: Obx(() => Text(
+              //             '${controller.play.value.trackCount ?? 0} 首',
+              //             style: TextStyle(fontSize: 26.sp),
+              //           )),
+              //       onTap: () => context.router.push(const gr.PlayListView().copyWith(args: controller.play.value)),
+              //     ),
+              //     _buildHeader('我的歌单', context, actionStr: '查看/管理'),
+              //     Obx(() => ListView.builder(
+              //           padding: EdgeInsets.symmetric(horizontal: 20.w),
+              //           shrinkWrap: true,
+              //           addRepaintBoundaries: false,
+              //           addAutomaticKeepAlives: false,
+              //           physics: const NeverScrollableScrollPhysics(),
+              //           itemBuilder: (content, index) => PlayListItem(play: controller.playlist[index]),
+              //           itemCount: controller.playlist.length > 10 ? 10 : controller.playlist.length,
+              //           itemExtent: 120.w,
+              //         )),
+              //   ],
+              //   headerWidget: _buildMeInfo(context),
+              // ),
             ))));
   }
 
@@ -350,7 +351,7 @@ class UserViewP extends GetView<UserController> {
               ),
             ),
             SizedBox(
-              width: Get.width,
+              width: MediaQuery.of(context).size.width,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -654,7 +655,7 @@ class UserViewL extends GetView<UserController> {
               ),
             ),
             SizedBox(
-              width: Get.width,
+              width: MediaQuery.of(context).size.width,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
